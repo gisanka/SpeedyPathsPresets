@@ -428,6 +428,10 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+# backup copies
+*.bak
+*.old
+
 # csproj.user file (for local environment)
 *.csproj.user
 
@@ -440,3 +444,5 @@ Environment.props
 
 # not the generated dll for thunderstore
 */Package/plugins/*
+# not the README.md which is copied there
+*/Package/README.md
