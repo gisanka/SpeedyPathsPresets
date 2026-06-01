@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SpeedyPathsPresets")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Preset switcher for the Valheim SpeedyPaths mod.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("gisanka")]
 [assembly: AssemblyProduct("SpeedyPathsPresets")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright © 2026 gisanka")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -1,64 +1,48 @@
-# JötunnModStub
+# SpeedyPaths Preset Switcher
 
-A Valheim mod stub project using [Jötunn](https://github.com/Valheim-Modding/Jotunn) including build tools and a basic Unity project stub.
-There is no actual plugin content included, just a minimum plugin class. 
+A Valheim companion mod for [SpeedyPaths](https://thunderstore.io/c/valheim/p/Nextek/SpeedyPaths/). It lets players define multiple SpeedyPaths configurations and switch between them in game with a configurable hotkey.
 
-#  Setup Guide
+The Thunderstore-facing README lives in `SpeedyPathsPresets/README.md`.
 
-Please see [Jötunn Docs](https://valheim-modding.github.io/Jotunn/guides/overview.html) detailed documentation and setup.
-In short:
--(optional, but recommended: get an IDE (Visual Studio) or VSCode)
--download and install .NET SDK: https://dotnet.microsoft.com/en-us/download
--get JötunnModStub via fork/template/download from github
--run RenameSolution.ps1 (win) / rename.sh (linux) or rename manually
+## Development Setup
 
-### Post Build automations
+1. Install the .NET SDK.
+2. Install Valheim with BepInExPack Valheim, Jotunn, and SpeedyPaths.
+3. Configure your local Valheim paths in `Environment.props`:
+    -VALHEIM_INSTALL
+    -BEPINEX_PATH (chose correct profile if a mod manager is handling the BepInEx installation)
+    -MOD_DEPLOYPATH (when using a mod manager set to $(BEPINEX_PATH)\plugins)
+4. Build the solution with Visual Studio or `dotnet build SpeedyPathsPresets.sln`.
 
-Included in this repo is a PowerShell script `publish.ps1`.
-The script is referenced in the project file as a post-build event.
-Depending on the chosen configuration in Visual Studio the script executes the following actions.
+The project targets `.NET Framework 4.8`, as expected by the Valheim/BepInEx modding stack used here.
 
-### Building Debug
+## Build Automation
 
-The compiled dll and a dll.mdb debug file are copied to `<ValheimDir>\BepInEx\plugins` (or the path set in MOD_DEPLOYPATH).
+Deployment to local plugin folder will be done in `scripts/publish.ps1` after each build on Windows.
 
-### Building Release
+### Debug
 
-A compressed file with the binaries is created in `<SpeedyPathsPresets>\Packages`ready for upload to ThunderStore.
-Dont forget to include your information in the manifest.json and to change the project's readme file.
+The compiled plugin is copied to `<ValheimDir>\BepInEx\plugins` or to the path configured in `MOD_DEPLOYPATH`.
 
-## Developing Assets with Unity
+### Release
 
-New Assets can be created with Unity and imported into Valheim using the mod.
-A Unity project is included in this repository under `<SpeedyPathsPresets>\SpeedyPathsPresetsUnity`.
+Release will be built with dotnet build -c Release
 
-### Unity Editor Setup
+The Release-build creates a Thunderstore-ready zip at:
 
-1. [Download](https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe) UnityHub directly from Unity or install it with the Visual Studio Installer via `Individual Components` -> `Visual Studio Tools for Unity`
-2. You will need an Unity account to register your PC and get a free licence. Create the account, login with it in Unity Hub and get your licence via `Settings` -> `Licence Management`
-3. Install Unity Editor version 2022.3.17f
-4. Compile the project. This copies all assemblies into `<SpeedyPathsPresets>\SpeedyPathsPresetsUnity\Assets\Assemblies`. Don't open Unity yet before this step, it will remove assembly references.
-5. **Warning:** These assembly files are copyrighted material and you can theoretically get into trouble when you distribute them in your github repository. To avoid that there is a .gitignore file in the Unity project folder. Keep that when you clone or copy this repository
-6. Open Unity Hub and add the SpeedyPathsPresetsUnity project
-7. Open the project in Unity
-8. Install the `AssetBundle Browser` package in the Unity Editor via `Window`-> `Package Manager` for easy bundle creation
+```text
+SpeedyPathsPresets/bin/Release/net48/SpeedyPathsPresets.zip
+```
 
-## Debugging
+The package contains:
 
-See the Wiki page [Debugging Plugins via IDE](https://github.com/Valheim-Modding/Wiki/wiki/Debugging-Plugins-via-IDE) for more information
+- `manifest.json`
+- `README.md`
+- `CHANGELOG.md`
+- `icon.png`
+- `plugins/SpeedyPathsPresets.dll`
 
 ## Actions after a game update
 
 When Valheim updates it is likely that parts of the assembly files change.
 If this is the case, the references to the assembly files must be renewed in Visual Studio and Unity.
-
-### Prebuild actions
-
-1. There is a file called DoPrebuild.props included in the solution. When you set its only value to true, Jötunn will automatically generate publicized assemblies for you. Otherwise you have to do this step manually.
-
-### Unity actions
-
-1. If you manually generated the publicized assemblies, copy all `assembly_*.dll` from `<ValheimDir>\valheim_Data\Managed` into `<SpeedyPathsPresets>\SpeedyPathsPresetsUnity\Assets\Assemblies`. <br />
-  **Do this directly in the filesystem - don't import the dlls in Unity**.
-2. Go to Unity Editor and press `Ctrl+R`. This reloads all files from the filesystem and "re-imports" the copied dlls into the project.
-

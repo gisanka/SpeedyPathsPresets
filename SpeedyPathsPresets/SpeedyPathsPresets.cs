@@ -213,7 +213,7 @@ namespace SpeedyPathsPresets
                 return;
             }
 
-            // Use any preset config option to get the actual configuration section name
+            // PresetConfig does not store the section name, so use one of its entries to reach it
             string presetSection = presetConfig.UseGlobalValues.Definition.Section;
 
             foreach (string targetSection in SpeedyPathsValueSections)
@@ -290,6 +290,11 @@ namespace SpeedyPathsPresets
                 }
                 string section = $"Preset: {presetName}";
 
+                // use different Default values per preset, only preconfigured preset FastTravel will get global values enabled and set to != 1
+                bool useGlobalValuesDefault = presetName.Equals("FastTravel", StringComparison.OrdinalIgnoreCase);
+                float speedModifierGlobalDefault = useGlobalValuesDefault ? 3f : 1f;
+                float staminaModifierGlobalDefault = useGlobalValuesDefault ? 0.1f : 1f;
+
                 if (!_presetConfigs.TryGetValue(presetName, out PresetConfig presetConfig))
                 {
                     presetConfig = new PresetConfig
@@ -299,7 +304,7 @@ namespace SpeedyPathsPresets
                         UseGlobalValues = Config.BindConfigInOrder(
                             section,
                             "SetAllValuesToSameLevel",
-                            true,
+                            useGlobalValuesDefault,
                             "Set all SpeedyPaths speed and stamina values in this preset to the same level. (ignore detailed settings)",
                             synced: false
                         ),
@@ -307,7 +312,7 @@ namespace SpeedyPathsPresets
                         SpeedModifierGlobal = Config.BindConfigInOrder(
                             section,
                             "SpeedModifier_Global",
-                            1f,
+                            speedModifierGlobalDefault,
                             "Global speed modifier for this preset.",
                             synced: false
                         ),
@@ -315,7 +320,7 @@ namespace SpeedyPathsPresets
                         StaminaModifierGlobal = Config.BindConfigInOrder(
                             section,
                             "StaminaModifier_Global",
-                            1f,
+                            staminaModifierGlobalDefault,
                             "Global stamina modifier for this preset.",
                             synced: false
                         )
@@ -360,6 +365,7 @@ namespace SpeedyPathsPresets
                     continue;
                 }
 
+                // Use SpeedyPaths defaults so newly generated presets start from sensible values.
                 Config.BindConfigInOrder(
                     section,
                     definition.Key,

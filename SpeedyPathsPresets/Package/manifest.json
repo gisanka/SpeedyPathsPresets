@@ -1,10 +1,11 @@
-﻿{
-  "name": "JotunnModStub",
-  "description": "",
-  "version_number": "0.0.1",
-  "website_url": "",
+{
+  "name": "SpeedyPathsPresets",
+  "description": "Preset switcher for the Valheim SpeedyPaths mod.",
+  "version_number": "0.1.0",
+  "website_url": "https://github.com/gisanka/SpeedyPathsPresets",
   "dependencies": [
     "denikson-BepInExPack_Valheim-5.4.2333",
-    "ValheimModding-Jotunn-2.26.1"
+    "ValheimModding-Jotunn-2.29.0",
+    "Nextek-SpeedyPaths-1.0.9"
   ]
 }
