@@ -20,7 +20,6 @@ namespace SpeedyPathsPresets
         public const string PluginName = "SpeedyPaths Preset Switcher";
         public const string PluginVersion = "0.1.0";
 
-        public static CustomLocalization Localization = LocalizationManager.Instance.GetLocalization();
         private const string SpeedyPathsGuid = "nex.SpeedyPaths";
         private ConfigFile _speedyPathsConfig;
         private static readonly string[] SpeedyPathsValueSections =
