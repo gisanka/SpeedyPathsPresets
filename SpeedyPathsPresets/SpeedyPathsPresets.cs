@@ -266,12 +266,13 @@ namespace SpeedyPathsPresets
 
         private void SetSpeedyPathsValue(ConfigFile config, string section, string key, float value)
         {
-            ConfigEntry<float> entry = config.Bind(
-                section,
-                key,
-                value,
-                "Managed by SpeedyPaths Preset Switcher."
-            );
+            ConfigDefinition definition = new ConfigDefinition(section, key);
+
+            if (!config.TryGetEntry<float>(definition, out ConfigEntry<float> entry))
+            {
+                Jotunn.Logger.LogWarning($"Could not find SpeedyPaths config value: [{section}] {key}");
+                return;
+            }
 
             entry.Value = value;
         }
